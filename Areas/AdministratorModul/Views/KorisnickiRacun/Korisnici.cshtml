@@ -1,0 +1,58 @@
+﻿@using eKnjige.Areas.AdministratorModul.ViewModels
+@model eKnjige.Models.Klijent
+@{
+    List<Klijent> korisnik = (List<Klijent>)ViewData["korisnik-kljuc"];
+}
+<section id="main-content">
+    <section class="wrapper">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2>Korisnici</h2>
+            </header>
+            <form>
+                <div class="margin-right-10">
+                    <div class="col-md-5">
+                        <input name="pretragaString" class="form-control" placeholder="Unesite ime ili prezime korisnika" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <button style="width:100px" class="btn btn-primary"><i class="fa fa-search"></i> Pretraga</button>
+                    </div>
+
+                    <div >
+                        <a class="btn btn-success" asp-action="DodajKorisnika"><i class="fa fa-plus"></i> Dodaj</a>
+                    </div>
+                </div>
+
+            </form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Korisničko ime</th>
+                        <th>Email</th>
+                        <th>Akcija</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in korisnik)
+                    {
+                        <tr>
+                            <td>@x.Ime</td>
+                            <td>@x.Prezime</td>
+                            <td>@x.KorisnickoIme</td>
+                            <td>@x.Email</td>
+                            <td>
+                                <a asp-action="UrediKorisnika" asp-controller="KorisnickiRacun" asp-route-KorisnikID="@x.KlijentID" class="btn btn-primary"><i class="fa fa-pencil "></i> Uredi</a>
+                                <a href="/AdministratorModul/KorisnickiRacun/Obrisi?id=@x.KlijentID" class="btn btn-danger"><i class="fa fa-times "></i> Obriši</a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </section>
+</section>

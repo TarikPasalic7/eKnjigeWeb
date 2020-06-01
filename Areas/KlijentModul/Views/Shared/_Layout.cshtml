@@ -1,0 +1,138 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using eKnjige.Helpers;
+@using eKnjige.Models;
+@{ 
+    Klijent klijent = Context.getKorisnickiNalog();
+}
+<!DOCTYPE html>
+<html lang="en"style="background-color:aliceblue;">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>eKnjige</title>
+    <link rel="icon" href="~/aroma/img/Fevicon.png" type="image/png">
+    
+    <link rel="stylesheet" href="~/aroma/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="~/aroma/vendors/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="~/aroma/vendors/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="~/aroma/vendors/nice-select/nice-select.css">
+    <link rel="stylesheet" href="~/aroma/vendors/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/aroma/vendors/owl-carousel/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="~/aroma/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        @if (klijent != null)
+        {
+            <a class="navbar-brand" asp-controller="KlijentProfil" asp-action="Index">@(klijent?.KorisnickoIme) Profil</a>
+        }
+        else
+        {
+            <a class="navbar-brand" asp-area="KlijentModul" asp-controller="Autentifikacija" asp-action="Index">Profil</a>
+        }
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-controller="Kupovina">Knjige</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Početna</a>
+                </li>
+                @if (klijent != null)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">Predlozi Knjigu</a>
+                    </li>
+
+                }
+
+
+
+            </ul>
+
+
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+
+                @if (klijent != null)
+                {
+                    <li class="nav-item float-right ">
+                        <a class="nav-link js-scroll-trigger" asp-area="KlijentModul" asp-controller="Autentifikacija" asp-action="Logout">Logout</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item float-right ">
+                        <a class="nav-link js-scroll-trigger" asp-area="KlijentModul" asp-controller="Autentifikacija" asp-action="Index">Login</a>
+                    </li>
+                }
+
+
+            </ul>
+        </div>
+
+    </nav>
+    <div class="container">
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Upišite vašu željenu knjigu</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-area="KlijentModul" asp-controller="KlijentProfil" asp-action="PredloziKnjigu">
+
+                            <div class="form-group">
+                                <label for="messagetext" class="col-form-label">Naziv knjige</label>
+                                <input type="text" class="form-control" id="messagetext" name="messagetext" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Završi" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="text-muted">
+        <div class="container">
+            <p class="float-right">
+                <a href="#" style="color:black">Back to top</a>
+            </p>
+
+        </div>
+    </footer>
+
+    <script src="~/aroma/vendors/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/aroma/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="~/aroma/vendors/skrollr.min.js"></script>
+    <script src="~/aroma/vendors/owl-carousel/owl.carousel.min.js"></script>
+    <script src="~/aroma/vendors/nice-select/jquery.nice-select.min.js"></script>
+    <script src="~/aroma/vendors/jquery.ajaxchimp.min.js"></script>
+    <script src="~/aroma/vendors/mail-script.js"></script>
+    <script src="~/aroma/js/main.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

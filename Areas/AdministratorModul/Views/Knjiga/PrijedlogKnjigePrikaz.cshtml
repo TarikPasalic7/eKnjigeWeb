@@ -1,0 +1,53 @@
+﻿@using eKnjige.Areas.AdministratorModul.ViewModels
+@model PrijedlogKnjigaPrikazVM
+@{
+    ViewData["Title"] = "PrijedlogKnjigePrikaz";
+}
+
+    <section id="main-content">
+        <section class="wrapper">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2>Predlozene knjige</h2>
+                </header>
+                <section class="panel-body">
+                     <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Naziv knjige</th>
+                                <th>Datum</th>
+                                <th>Predlagatelj</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ foreach (var x in Model.rows)
+                                {
+                                                        <tr>
+                                                            <td>@x.Naziv</td>
+                                                            <td>@x.Datum</td>
+                                                            <td>@x.Klijent</td>
+                                                            @if (x.Odgovorio && x.Prihvatio)
+                                                            {
+                                                                <td><span class="text-success bold"><i class="fa fa-check "></i>Prijedlog je prihvacen!</span></td>
+}
+                                                            else if(x.Odgovorio && x.Prihvatio==false){
+                                                                <td><span class="text-danger bold"><i class="fa fa-ban "></i>Prijedlog je odbijen!</span></td>
+                                                            }
+                                                            else
+                                                            {
+                                                            <td>
+                                                                <a asp-action="Prihvaceno" asp-controller="Knjiga" asp-route-PrijedlogID="@x.PrijedlogKnjigeID" class="btn btn-success"><i class="fa fa-check "></i> Prihvati</a>
+                                                                <a asp-action="Odbijen" asp-controller="Knjiga" asp-route-PrijedlogID="@x.PrijedlogKnjigeID" class="btn btn-danger"><i class="fa fa-ban "></i> Odbij</a>
+                                                            </td>
+                                                            }
+                                                        </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+        </section>
+        </section>
+        

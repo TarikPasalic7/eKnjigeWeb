@@ -1,0 +1,64 @@
+﻿@using eKnjige.Areas.AdministratorModul.ViewModels;
+@model AdministratorIndexVM
+@{
+    ViewData["Title"] = "Index";
+}
+<section id="main-content">
+    <section class="wrapper">
+        <section class="panel">
+            <header class="panel-heading">
+                <h1>Opće informacije</h1>
+            </header>
+            <div id="container1">
+                <div class="poc">
+                    <img src="~/img/accs.png" />
+                    <h3>Korisnicki računi:</h3>
+                    <h4>Broj registrovanih korisnika: @Model.trenutnoKorisnika <br/> Broj administratora: @Model.administratora</h4>
+                    <a asp-action="Korisnici" asp-controller="KorisnickiRacun" class="btn btn-primary">Pregled</a>
+                </div>
+                <div class="poc">
+                    <img src="~/img/book-logo-programmes-the-academy-of-urbanism.png" />
+                    <h3>Knjige:</h3>
+                    <h4>Ukupan broj knjiga: @Model.trenutnoKnjiga <br/>Do sada prodano knjiga: @Model.prodanoKnjiga</h4>
+                    <a asp-action="KupovinaKnjigaPrikaz" asp-controller="Knjiga" class="btn btn-primary">Detaljnije</a>
+
+                </div>
+
+                <div class="poc">
+                    <img src="~/img/196-1961608_free-png-complaints-complaint-and-suggestion-icon-png.png" />
+                    <h3>Prijedlozi:</h3>
+                    <h4>Broj prijedloga: @Model.trenutnoPrijedloga
+                    </h4>
+                    <a asp-action="PrijedlogKnjigePrikaz" asp-controller="Knjiga" class="btn btn-primary">Detaljnije</a>
+
+                </div>
+            </div>
+        </section>
+    </section>
+</section>
+<style>
+    h1 {
+        text-align: center;
+    }
+
+    #container1 {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
+        border-radius: 15px;
+        width: 100%;
+    }
+
+    .poc {
+        width: 33%;
+        text-align: center;
+        color: black;
+        margin-top: 2pc;
+    }
+
+        .poc img {
+            width: 60%;
+            max-width: 20pc;
+            height: auto;
+        }
+</style>

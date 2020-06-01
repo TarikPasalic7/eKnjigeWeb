@@ -1,0 +1,66 @@
+﻿@using eKnjige.Areas.AdministratorModul.ViewModels
+@model KupovinaKnjigaPrikazVM
+@{
+    ViewData["Title"] = "KupovinaKnjiga";
+}
+<section id="main-content">
+    <section class="wrapper">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2>Podaci o kupovini knjiga</h2>
+            </header>
+            <section class="panel-body">
+                <form>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input name="pretragaString" class="form-control" placeholder="Unesite naziv knjige" />
+                        </div>
+
+                        <div class="col-md-2">
+                            <button style="width:100px" class="btn btn-primary"><i class="fa fa-search"></i> Pretraga</button>
+                        </div>
+
+       
+                    </div>
+                    <h5>Ukupan broj prodanih knjiga: @Model.BrojProdanih</h5>
+                </form>
+           
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Naziv knjige</th>
+                            <th>Kupac</th>
+                            <th>Cijena knjige</th>
+                            <th>Ocjena</th>
+                            <th>Datum kupnje</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ foreach (var x in Model.rows)
+                            {
+                                                <tr>
+
+                                                    <td>@x.Knjiga</td>
+                                                    <td>@x.Kupac</td>
+                                                    <td>@x.Cijena</td>
+                                                    @if (x.Ocjena == 0)
+                                                    {
+                                                         <td>Nije ocjenjena</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@x.Ocjena</td>
+                                                    }
+                                                    <td>@x.Datum</td>
+
+                                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </section>
+        </section>
+    </section>

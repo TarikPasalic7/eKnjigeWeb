@@ -1,0 +1,165 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using eKnjige.Helpers;
+@using eKnjige.Models;
+@{
+    Administrator administrator = Context.getKorisnickiNalogAdministrator();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="shortcut icon" href="img/favicon.html">
+
+    <title>eKnjige</title>
+    <!-- Bootstrap core CSS -->
+    <script src="~/js/jquery.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="~/js/moment.js"></script>
+
+    @*<script src="~/js/script-custom-calendar.js"></script>*@
+
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="~/css/font-awesome.css" rel="stylesheet" />
+ 
+    @*qtip*@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.min.js"></script>
+
+    <!-- Custom styles for this template -->
+
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/style-responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+</head>
+<body>
+    <section id="container">
+        <!--header start-->
+        <header class="header white-bg">
+            <div class="sidebar-toggle-box">
+                <i class="fa fa-bars"></i>
+            </div>
+            <!--logo start-->
+            <a href="#" class="logo">eKnjige</a>
+            <div class="nav notify-row" id="top_menu">
+                <!--logo end-->
+            </div>
+            <div class="top-nav ">
+                <ul class="nav pull-right top-menu">
+                 
+                    <!-- user login dropdown start-->
+
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <img alt="" src="img/avatar1_small.jpg">
+                            <span class="username">@administrator.KorisnickoIme</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            <li>
+                                <a asp-controller="Autentifikacija"asp-action="Index"><i class="fa fa-bell-o"></i> Odjava</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- user login dropdown end -->
+                </ul>
+     
+            </div>
+        </header>
+        <!--header end-->
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse ">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu" id="nav-accordion">
+                    <li>
+                        <a asp-area="AdministratorModul" asp-controller="Administrator" asp-action="Index">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Početna stranica</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                                <i class="fa fa-user"></i>
+                                <span>Korisnički računi</span>
+                            </a>
+                        <ul class="sub">
+                            <li> <a asp-area="AdministratorModul" asp-controller="KorisnickiRacun" asp-action="Administratori">Administratori</a></li>
+                            <li> <a asp-area="AdministratorModul" asp-controller="KorisnickiRacun" asp-action="Korisnici">Korisnici</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-book"></i>
+                            <span>Knjige</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a asp-area="AdministratorModul" asp-controller="Knjiga" asp-action="PrikaziKnjige">Pregled</a></li>
+                            <li><a asp-area="AdministratorModul" asp-controller="Knjiga" asp-action="DodajKnjigu">Dodaj novu</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-location-arrow"></i>
+                            <span>Poslovanje</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a asp-area="AdministratorModul" asp-controller="Knjiga" asp-action="PrijedlogKnjigePrikaz">Prijedlog knjiga</a></li>
+                            <li><a asp-area="AdministratorModul" asp-controller="Knjiga" asp-action="KupovinaKnjigaPrikaz">Podaci o kupovini</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- sidebar menu end-->
+
+            </div>
+        </aside>
+        <!--sidebar end-->
+        <!--main content start-->
+        @RenderBody()
+
+
+        <!--main content end-->
+        <!--footer start-->
+        <footer class="site-footer">
+            <div class="text-center">
+
+                @DateTime.Now.Year &copy; eKnjige.
+
+            </div>
+        </footer>
+        <!--footer end-->
+    </section>
+    s
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="~/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="~/js/jquery.scrollTo.min.js"></script>
+    <script src="~/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="~/js/jquery.sparkline.js" type="text/javascript"></script>
+    <script src="~/js/owl.carousel.js"></script>
+    <script src="~/js/jquery.customSelect.min.js"></script>
+    <script src="~/js/respond.min.js"></script>
+
+    <!--common script for all pages-->
+    <script src="~/js/common-scripts.js"></script>
+
+    <!--script for this page-->
+
+    <script src="~/js/count.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.min.js"></script>
+        <script src="~/js/script-custom-calendar.js"></script>*@
+
+</body>
+</html>

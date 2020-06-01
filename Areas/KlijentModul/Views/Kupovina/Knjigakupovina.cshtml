@@ -1,0 +1,466 @@
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<eKnjige.Data.StripeSettings> Stripe
+@using eKnjige.Data
+@using eKnjige.Helpers
+@model eKnjige.Areas.KlijentModul.ViewModels.ProizvodVM
+
+@{ 
+
+    var korisnik = Context.getKorisnickiNalog();
+}
+
+<div class="product_image_area">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <div class="owl-carousel owl-theme s_Product_carousel">
+                    <div class="single-prd-item">
+                        <img class="img-fluid" src="@Model.Slika" alt="">
+                    </div>
+                    <!-- <div class="single-prd-item">
+                        <img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+                    </div>
+                    <div class="single-prd-item">
+                        <img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3> @Model.Naslov</h3>
+                    @*<form asp-action="Kupi" method="post">
+            <h2> <span style="color:green">@Model.Cijena</span> KM</h2>
+            <script src="//checkout.stripe.com/v2/checkout.js"
+                    class="stripe-button"
+                    data-key="@Stripe.Value.PublishableKey"
+                    data-locale="auto"
+                    data-description="Sample Charge"
+
+
+                    >
+
+
+            </script>
+        </form>*@
+                    <style>
+
+                        .error {
+                            border: solid red 1px;
+                        }
+                    </style>
+
+                    <script src="https://js.stripe.com/v3/"></script>
+
+
+                    <div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Kupi knjigu</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form asp-action="Kupi" method="post" id="payment-form">
+                                        <input asp-for="Cijena" hidden />
+                                        <input asp-for="KnjigaId" hidden />
+
+                                        <div class="form-group">
+                                            <label for="card-name">Ime i Prezime</label>
+                                            <input type="text" name="CardName" class="form-control" id="card-name" placeholder="Ime i Prezime" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="email" name="email" asp-for="Email" class="form-control" id="email" />
+                                        </div>
+                                        <div class="form-group">
+
+                                            <label for="card-number">
+                                                Credit or debit card
+                                            </label>
+                                            <div id="card-number">
+                                                <!-- A Stripe Element will be inserted here. -->
+                                                @*<input asp-for="BrojKartice" />*@
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="card-cvc">
+                                                        CVC
+                                                    </label>
+                                                    <div id="card-cvc">
+                                                        <!-- A Stripe Element will be inserted here. -->
+                                                        @*<input asp-for="CVC" />*@
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6">
+
+                                                    <label for="card-exp">
+                                                        EXP Date
+                                                    </label>
+                                                    <div id="card-exp">
+                                                        <!-- A Stripe Element will be inserted here. -->
+                                                        @*<input asp-for="EXP" />*@
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Used to display form errors. -->
+                                        <div id="card-errors" role="alert"></div>
+
+                                        <div class="form-group">
+                                            <button class="form-control btn btn-danger"> Kupi Knjigu  (Cijena @Model.Cijena KM)</button>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <script type="text/javascript">
+
+                        // Create a Stripe client.
+                        var stripe = Stripe('pk_test_GV7CFLcgjHOmSZYvz5rmelS900NINc2cGI');
+
+                        // Create an instance of Elements.
+                        var elements = stripe.elements();
+
+                        // Custom styling can be passed to options when creating an Element.
+                        // (Note that this demo uses a wider set of styles than the guide below.)
+                        var style = {
+                            base: {
+                                color: '#32325d',
+                                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                                fontSmoothing: 'antialiased',
+                                fontSize: '16px',
+                                '::placeholder': {
+                                    color: '#aab7c4'
+                                }
+                            },
+                            invalid: {
+                                color: '#fa755a',
+                                iconColor: '#fa755a'
+                            }
+                        };
+
+                        // Create an instance of the card Element.
+                        var card = elements.create('cardNumber', {
+                            classes:
+                            {
+                                base: "form-control",
+
+                                invalid: "error"
+
+                            }
+                        });
+
+                        var cvc = elements.create('cardCvc', {
+                            classes:
+                            {
+                                base: "form-control",
+
+                                invalid: "error"
+
+
+                            }
+                        });
+
+
+                        var exp = elements.create('cardExpiry', {
+                            classes:
+                            {
+                                base: "form-control",
+
+                                invalid: "error"
+
+                            }
+                        });
+
+
+                        // Add an instance of the card Element into the `card-element` <div>.
+
+                        cvc.mount('#card-cvc');
+                        exp.mount('#card-exp');
+                        card.mount('#card-number');
+                        // Handle real-time validation errors from the card Element.
+                        card.addEventListener('change', function (event) {
+                            var displayError = document.getElementById('card-errors');
+                            if (event.error) {
+                                displayError.textContent = event.error.message;
+                            } else {
+                                displayError.textContent = '';
+                            }
+                        });
+
+                        // Handle form submission.
+                        var form = document.getElementById('payment-form');
+                        form.addEventListener('submit', function (event) {
+                            event.preventDefault();
+
+                            stripe.createToken(card).then(function (result) {
+                                if (result.error) {
+                                    // Inform the user if there was an error.
+                                    var errorElement = document.getElementById('card-errors');
+                                    errorElement.textContent = result.error.message;
+                                } else {
+                                    // Send the token to your server.
+                                    stripeTokenHandler(result.token);
+                                }
+                            });
+                        });
+
+                        // Submit the form with the token ID.
+                        function stripeTokenHandler(token) {
+                            // Insert the token ID into the form so it gets submitted to the server
+                            var form = document.getElementById('payment-form');
+                            var hiddenInput = document.createElement('input');
+                            hiddenInput.setAttribute('type', 'hidden');
+                            hiddenInput.setAttribute('name', 'stripeToken');
+                            hiddenInput.setAttribute('value', token.id);
+                            form.appendChild(hiddenInput);
+
+                            // Submit the form
+                            form.submit();
+                        }
+
+                    </script>
+
+
+                    @*  **************************  SKRIPTAAAA     ***********************       *@
+                    <label>Naziv Knjige: @Model.Naslov</label>
+                    <br />
+                    <label>Cijena:<span style="color:dodgerblue;"> @Model.Cijena</span>  KM</label>
+
+                    <ul class="list">
+
+
+                        <li>
+                            <a class="active" href="#">
+                                <span>Kategorije</span>:
+
+                                @foreach (var x in Model.rows2)
+                                {
+
+
+
+
+                                    @x.Kategorija
+
+
+                                }
+
+
+
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <span>Autor/i</span>:
+                                @foreach (var x in Model.rows)
+                                {
+
+                                    @x.Autor
+                                }
+
+                            </a>
+                        </li>
+
+
+
+                    </ul>
+                    @*<p>
+            Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
+            something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
+            during the winter.
+        </p>*@
+                    @if (korisnik != null)
+                    {
+                        <a class="btn btn-lg btn-primary" style="color:white;" data-toggle="modal" data-target="#Modal1">Kupi knjigu</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-lg btn-primary" style="color:white;" asp-area="KlijentModul" asp-controller="Autentifikacija" asp-action="Index">Kupi knjigu</a>
+                    }
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End Single Product Area =================-->
+<!--================Product Description Area =================-->
+<section class="product_description_area">
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
+                   aria-selected="true">Ocjena</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Opis Knjige</a>
+            </li>
+            @*<li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                       aria-selected="false">Specification</a>
+                </li>*@
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                   aria-selected="false">Komentari</a>
+            </li>
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <p>
+                    @Model.Opis
+
+                  
+                </p>
+            </div>
+
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="comment_list" id="ajaxkomentar">
+
+
+                            @********************** KOMENTARI *****************************@
+
+                            @foreach (Komentar k in Model.Komentari)
+                            {
+
+
+                                <div class="review_item">
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <img src="img/product/review-1.png" alt="">
+                                        </div>
+                                        <div class="media-body">
+                                            <h4>@k.Klijent.Ime @k.Klijent.Prezime</h4>
+                                            <h5>@k.DatumKomentara.ToLongDateString()</h5>
+                                            @if (korisnik != null && k.KlijentID == korisnik.KlijentID)
+                                            {
+                                                <a class="reply_btn" asp-action="ObrisiKomentar" asp-route-id="@k.KomentarId" ajax-poziv="da" ajax-rezultat="ajaxkomentar">Obriši</a>
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <p style="background-color:antiquewhite;color:black;">
+                                        @k.komentar
+                                    </p>
+                                </div>
+
+                            }
+
+
+
+                            @section Scripts{
+
+                                <script src="~/JFIT.js"></script>
+
+                                @*<script>
+
+                                                                        $(document).ajaxComplete(function () {
+                                        // izvršava nakon bilo kojeg ajax poziva
+
+                                                                            $("#dodajkom").val(" ");
+
+                                                                       DodajAjaxEvente();
+                                    });
+                                                                    </script>*@
+
+                            }
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="review_box">
+                            <h4>Post a comment</h4>
+                            <form class="row contact_form" asp-action="Komentar" method="post" id="contactForm" ajax-poziv="da" ajax-rezultat="ajaxkomentar" novalidate="novalidate">
+                                <input asp-for="KnjigaId" hidden />
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control" asp-for="komentar" id="dodajkom" rows="2" placeholder="Message"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    @if (korisnik != null)
+                                    {
+                                        <button type="submit" class="btn primary-btn">Dodaj komentar</button>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn  btn-primary" asp-area="KlijentModul" asp-controller="Autentifikacija" asp-action="Index">Dodaj Komentar</a>
+                                    }
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row total_rate">
+                            <div class="col-6">
+                                <div class="box_total">
+                                    <h5>Ocjena</h5>
+                                    <h4>@Model.Ocjena</h4>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
+</section>
+
+@*   ***************************MODAL*****************************************@

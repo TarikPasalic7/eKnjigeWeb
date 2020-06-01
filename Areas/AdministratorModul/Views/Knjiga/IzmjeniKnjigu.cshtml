@@ -1,0 +1,108 @@
+﻿@model eKnjige.Areas.AdministratorModul.ViewModels.KnjigaEditVM
+
+@{
+    var administrator = (List<Administrator>)ViewData["administrator-kljuc"];
+    var autor = (List<Autor>)ViewData["autor-kljuc"];
+    ViewData["Title"] = "IzmjeniKnjigu";
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2>Izmjni Knjigu</h2>
+                <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+                <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+            </header>
+
+            <div class="panel-body">
+                <form asp-action="IzmjeniKnjigu" id="forma">
+                    <input asp-for="EKnjigaId" type="hidden"/>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label asp-for="Naziv" class="control-label"></label>
+                            <input asp-for="Naziv" class="form-control" />
+                        </div>
+                        <div class="col-md-4" >
+                            <label asp-for="Cijena" class="control-label" type="number" min="0" step="0.01"></label>
+                            <input asp-for="Cijena" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Opis" class="control-label"></label>
+                            <textarea asp-for="Opis" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label asp-for="SlikaByte" class="control-label"></label>
+                            <input asp-for="SlikaByte" class="form-control" type="file" accept="image/x-png,image/gif,image/jpeg" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="PdfByte" class="control-label"></label>
+                            <input asp-for="PdfByte" class="form-control" type="file" accept="application/pdf" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Mp3Byte" class="control-label"></label>
+                            <input asp-for="Mp3Byte" class="form-control" type="file" accept="audio/mp3" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label asp-for="AutoriID" class="control-label"></label>
+                            <select asp-for="AutoriID" asp-items="@Model.Autori" class="selectpicker" multiple="multiple">
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="KategorijeID" class="control-label"></label>
+                            <select asp-for="KategorijeID" asp-items="@Model.Kategorije" class="selectpicker" multiple="multiple">
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="TipoviId" class="control-label"></label>
+                            <select asp-for="TipoviId" asp-items="@Model.Tipovi" class="selectpicker" multiple="multiple">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Izmjeni" class="btn btn-primary" id="spasiBtn" />
+                    </div>
+                </form>
+            </div>
+            <div>
+                <a asp-action="PrikaziKnjige" class="btn btn-danger"><i class="	fa fa-chevron-left"></i> Nazad</a>
+            </div>
+        </section>
+    </section>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.selectpicker').select2();
+    });
+
+    $("#forma").on("submit", function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: '@Url.Action("IzmjeniKnjigu", "Knjiga")',
+            data: formData,
+            enctype: 'multipart/form-data',
+            processData: false,  // do not process the data as url encoded params
+            contentType: false,   // by default jQuery sets this to urlencoded string
+            type: 'POST',
+            success: function(){
+                location.href='@Url.Action("PrikaziKnjige")';
+            },
+            error: function (response) {
+                 $("#main-content").replaceWith(response.responseText);
+                 $('.selectpicker').select2();
+            }
+        });
+    });
+</script>

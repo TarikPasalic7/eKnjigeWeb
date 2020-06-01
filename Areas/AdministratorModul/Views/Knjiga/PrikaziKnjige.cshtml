@@ -1,0 +1,86 @@
+﻿
+@using eKnjige.Areas.AdministratorModul.ViewModels
+@model eKnjige.Areas.AdministratorModul.ViewModels.KnjigeKategorijeAutoriTipVM
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "PrikaziKnjige";
+    Layout = "~/Areas/AdministratorModul/Views/Shared/_Layout.cshtml";
+
+    List<EKnjiga> knjige = (List<EKnjiga>)ViewData["knjige-kljuc"];
+}
+<section id="main-content">
+    <section class="wrapper">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2>Knjige</h2>
+            </header>
+            <section class="panel-body">
+
+                <form>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input name="pretragaString" class="form-control" placeholder="Unesite naziv knjige" />
+                        </div>
+
+                        <div class="col-md-2">
+                            <button style="width:100px" class="btn btn-primary"><i class="fa fa-search"></i> Pretraga</button>
+                        </div>
+
+                        <a class="btn btn-success" href="/AdministratorModul/Knjiga/DodajKnjigu"><i class="fa fa-plus"></i> Dodaj</a>
+                    </div>
+
+                </form>
+
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                         
+                            <th>Slika</th>
+                            <th>Naziv</th>
+                            <th>Cijena</th>
+                            <th>Ocjena</th>
+                            <th>Autori</th>
+                            <th>Kategorije</th>
+                            <th>Tipovi fajla</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ foreach (eKnjige.Areas.AdministratorModul.ViewModels.KnjigeKategorijeAutoriTipVM.Row x in Model.htmlrows)
+                            {
+                                <tr>
+                                    <td><image src="@(x.Slika?.Length > 0 ? x.Slika:"/Slike/placeholder.png")" style="width:80px;height:80px;"></image></td>
+                                    <td>@x.Naziv</td>
+                                    <td>@x.Cijena KM</td>
+                                    <td>@(x.OcijenaKnjige == 0 ? "Nije ocjenjena" : x.OcijenaKnjige.ToString())</td>
+                                    <td width="15%">
+                                        @x.Autori
+                                    </td>
+                                    <td width="10%">
+                                        @x.Kategorije
+                                    </td>
+                                    <td>
+                                        @x.TipFajlova
+                                    </td>
+                                    <td>
+                                        <a href="/AdministratorModul/Knjiga/IzmjeniKnjigu?id=@x.KnjigaID" class="btn btn-info"><i class="fa fa-pencil "></i> Izmjeni</a>
+                                        <a href="/AdministratorModul/Knjiga/Obrisi?id=@x.KnjigaID" class="btn btn-danger"><i class="fa fa-times "></i> Obriši</a>
+                                        <a asp-area="AdministratorModul" asp-action="Komentari" asp-controller="Knjiga" asp-route-KnjigaID="@x.KnjigaID" class="btn btn-primary"><i class="fa fa-comments "></i> Komentari</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <div page-model="@Model.PagingInfo" page-action="PrikaziKnjige" page-classes-enabled="true"
+                     page-class="btn" page-class-normal="btn-default"
+                     page-class-selected="btn-primary" class="btn-group pull-right">
+                </div>
+            </section>
+        </section>
+    </section>
+</section>
+
+
+

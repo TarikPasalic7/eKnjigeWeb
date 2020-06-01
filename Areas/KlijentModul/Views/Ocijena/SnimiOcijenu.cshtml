@@ -1,0 +1,13 @@
+﻿@using eKnjige.Data
+@using eKnjige.Helpers;
+@model eKnjige.VewModels.SnimiOcijenuVM;
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+
+
+<h4>Trenutna ocijena je : @Model.prosijek.ToString("F1")</h4>
+<br />
+<a asp-action="Index" asp-route-knjigaId="@Model.KnjigaId" class="btn btn-lg btn-primary"  >Nazad</a>

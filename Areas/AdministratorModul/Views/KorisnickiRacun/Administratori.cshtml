@@ -1,0 +1,36 @@
+﻿@using eKnjige.Areas.AdministratorModul.ViewModels
+@model eKnjige.Models.Administrator
+@{ 
+     List<Administrator> admin = (List<Administrator>)ViewData["administrator-kljuc"];
+}
+<section id="main-content">
+    <section class="wrapper">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2>Administratori</h2>
+            </header>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Korisničko ime</td>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in admin)
+                    {
+                        <tr>
+                            <td>@x.Ime</td>
+                            <td>@x.Prezime</td>
+                            <td>@x.KorisnickoIme</td>
+                            <td>@x.Email</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </section>
+</section>

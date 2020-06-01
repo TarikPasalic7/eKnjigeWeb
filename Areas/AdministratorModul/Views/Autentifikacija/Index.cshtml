@@ -1,0 +1,32 @@
+﻿
+@model eKnjige.Areas.AdministratorModul.ViewModels.LoginVM;
+
+@{
+    TempData["Title"] = "Login";
+    string Error_poruka = (string)ViewData["Error_poruka"];
+    Layout = "_LayoutNijelogiran";
+}
+
+
+
+
+    <div class="container" style="width:40%;">
+        <form class="form-signin" asp-controller="Autentifikacija" asp-action="Login" method="post">
+            <h2 class="form-signin-heading text-center text-info">Administrator Panel</h2>
+            <br />
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            }
+            <input asp-for="Username" style="margin-bottom:10px;" class="form-control" placeholder="Unesite vase korisnicko ime" autofocus />
+            @Html.ValidationMessageFor(model => model.Username)
+
+            <input asp-for="Password" type="password" style="margin-bottom:20px" class="form-control" placeholder="Unesite vasu lozinku" />
+            @Html.ValidationMessageFor(model => model.Password)
+            <button class="btn btn-lg btn-info btn-block" type="submit"  >Prijava</button>
+
+        </form>
+   </div>
+
+
+

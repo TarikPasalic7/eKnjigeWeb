@@ -1,0 +1,39 @@
+﻿
+@using Microsoft.Extensions.Options
+@inject IOptions<eKnjige.Data.StripeSettings> Stripe
+@using eKnjige.Data
+@using eKnjige.Helpers
+@model eKnjige.Areas.KlijentModul.ViewModels.ProizvodVM
+
+@{
+
+    var korisnik = Context.getKorisnickiNalog();
+}
+
+
+
+@foreach (Komentar k in Model.Komentari)
+{
+
+
+    <div class="review_item">
+        <div class="media">
+            <div class="d-flex">
+                <img src="img/product/review-1.png" alt="">
+            </div>
+            <div class="media-body">
+                <h4>@k.Klijent.Ime @k.Klijent.Prezime</h4>
+                <h5>@k.DatumKomentara.ToLongDateString()</h5>
+                @if (korisnik != null && k.KlijentID == korisnik.KlijentID)
+                {
+                    <a class="reply_btn" asp-action="ObrisiKomentar" asp-route-id="@k.KomentarId" ajax-poziv="da" ajax-rezultat="ajaxkomentar">Obriši</a>
+                }
+
+            </div>
+        </div>
+        <p style="background-color:antiquewhite;color:black;">
+            @k.komentar
+        </p>
+    </div>
+}
+

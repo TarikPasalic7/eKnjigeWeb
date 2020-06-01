@@ -1,0 +1,32 @@
+﻿@using eKnjige.Areas.KlijentModul.ViewModels
+@model eKnjige.Areas.KlijentModul.ViewModels.AutentifikacijaKodVM
+@{
+    ViewData["Title"] = "UnosKoda";
+    Layout = "_LayoutNijelogiran";
+}
+
+<div class="container" style="width:70%;">
+    <h2 style="text-align: center">Unesite kod koji je poslan na vaš mail</h2>
+</div>
+<br />
+<br />
+<br />
+<br />
+<div class="container" style="width:40%;">
+    <form asp-action="ProvjeraKoda" asp-area="KlijentModul">
+
+        <input asp-for="@Model.klijentId" hidden />
+        <input asp-for="@Model.kodGen" hidden />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <label class="control-label">Kod:</label>
+        <input asp-for="@Model.kodKor" class="form-control" /><br /><br />
+        <br />
+        <input type="submit" value="Pristupi" class="btn btn-success" />
+    </form>
+
+
+    <br />
+    <br />
+    <br />
+
+</div>

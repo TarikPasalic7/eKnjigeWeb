@@ -1,0 +1,50 @@
+﻿@using eKnjige.Areas.KlijentModul.ViewModels
+@model PrijedlogKnjigaPrikazVM
+@{
+    ViewData["Title"] = "OdgovorNaPrijedlogPrikaz";
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2>Predlozene knjige</h2>
+            </header>
+            <section class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Naziv knjige</th>
+                            <th>Datum</th>
+                            <th>Odgovorio</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ foreach (var x in Model.rows)
+                            {
+                                                <tr>
+                                                    <td>@x.Naziv</td>
+                                                    <td>@x.Datum</td>
+                                                    <td>@x.Administrator</td>
+                                                    @if (x.Odgovorio && x.Prihvatio)
+                                                    {
+                                                        <td><span class="text-success bold">Vaš poslani prijedlog je prihvćen, radimo na obradi knjige, HVALA!</span></td>
+                                                    }
+                                                    else if (x.Odgovorio && x.Prihvatio == false)
+                                                    {
+                                                        <td><span class="text-danger bold">Nažalost vaš prijedlog je odbijen!</span></td>
+                                                    }
+                                                    else if (x.Odgovorio==false && x.Prihvatio == false)
+                                                    {
+                                                        <td><span class="text-info bold">Prijedlog na obradi!</span></td>
+                                                    }
+
+                                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </section>
+        </section>
+    </section>

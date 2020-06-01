@@ -1,0 +1,100 @@
+﻿@model eKnjige.Models.Klijent
+
+@{
+    List<SelectListItem> gradovi = (List<SelectListItem>)ViewData["gradovi"];
+    List<SelectListItem> spol = (List<SelectListItem>)ViewData["spol"];
+    ViewData["Title"] = "Registracija";
+    
+}
+
+
+
+
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Registracija</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Registracija</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+<!--================Login Box Area =================-->
+<section class="login_box_area section-margin">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="login_box_img">
+                    <div class="hover">
+                        <h4>Imate već profil?</h4>
+                        <p></p>
+                        <a class="button button-account" asp-action="Index" asp-controller="Autentifikacija">Logiraj se</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="login_form_inner register_form_inner">
+                    <h3>Create an account</h3>
+                    <form class="row login_form" asp-action="Registracija" id="register_form">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" asp-for="Ime" name="Ime" placeholder="Ime" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ime'">
+                            <span asp-validation-for="Ime" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" asp-for="Prezime" placeholder="Prezime" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Prezime'">
+                            <span asp-validation-for="Prezime" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" asp-for="KorisnickoIme" placeholder="Korisnicko Ime" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Korisnicko Ime'">
+                            <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="email" class="form-control" asp-for="Email" placeholder="Email Adresa" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Adresa'">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="password" class="form-control" asp-for="Lozinka" placeholder="Lozinka" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lozinka'">
+                            <span asp-validation-for="Lozinka" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label asp-for="Spol" class="control-label"></label>
+                            <select asp-for="SpolID" class="form-control" asp-items="spol"></select>
+                           
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label asp-for="Grad" class="control-label"></label>
+                            <select asp-for="GradID" class="form-control" asp-items="gradovi"></select>
+                            <a href="dodajgrad" class="btn btn-lg btn-primary" style="color:white;">Dodaj Grad</a>
+                        </div>
+                        @*<div class="col-md-12 form-group">
+                            <div class="creat_account">
+                                <input type="checkbox" id="f-option2" name="selector">
+                                <label for="f-option2">Keep me logged in</label>
+                            </div>
+                        </div>*@
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" class="btn btn-lg btn-primary">Registruj se</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

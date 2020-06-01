@@ -1,0 +1,88 @@
+﻿@using eKnjige.Areas.KlijentModul.ViewModels
+@using eKnjige.Helpers
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using eKnjige.Models;
+@*@model eKnjige.VewModels.KlijentProfilVM*@
+@model IEnumerable<eKnjige.Models.KupovinaKnjige>
+
+
+@{
+    ViewData["Title"] = "View";
+
+
+    var korisnik = Context.getKorisnickiNalog();
+   
+}
+
+
+
+<main role="main">
+
+    <section class="jumbotron text-center">
+            <div class="container">
+                <h1>@korisnik.Ime @korisnik.Prezime</h1>
+                
+            </div>
+        </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row">
+                @foreach (var m in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            @*<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="~/img/portfolio/fullsize/@m.slika"  preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>*@
+                            <div class="card-body" style="background-color:lightsteelblue;">
+                                <img class="card-img" src="@m.EKnjiga.Slika" alt="nema">
+                                <p class="card-text text-center"><h3 class="text-center">@m.EKnjiga.Naziv</h3></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a asp-controller="Ocijena" asp-action="Index" asp-route-knjigaId="@m.EKnjigaID" class="btn btn-sm btn-outline-secondary" style="background-color:lightgray;">Ocjeni</a>
+                                        @if (m.EKnjiga.PdfPath != null)
+                                        {
+                                            <a href="@m.EKnjiga.PdfPath" class="btn btn-sm btn-outline-secondary" style="background-color:lightgrey;">PDF</a>
+                                        }
+                                        @if (m.EKnjiga.Mp3Path != null)
+                                        {
+                                            <a href="@m.EKnjiga.Mp3Path" class="btn btn-sm btn-outline-secondary" style="background-color:lightgrey;">MP3</a>
+                                        }
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
+new X.PagedList.Mvc.Core.Common.PagedListRenderOptions
+{
+    DisplayItemSliceAndTotal = true,
+    ContainerDivClasses = new[] { "navigation" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+})
+
+
+    @section Scripts{
+        <script>
+
+            $(document).ready(function () {
+                $('ul.pagination > li.disabled > a').addClass('page-link');
+            });
+        </script>
+    }
+
+</main>
